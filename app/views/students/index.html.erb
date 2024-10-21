@@ -1,21 +1,63 @@
-<p style="color: green"><%= notice %></p>
+<header>
+  <div class="container-fluid bg-primary text-white py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+      <img src="path-to-msu-denver-banner.jpg" alt="MSU Denver" class="img-fluid" style="max-height: 60px;">
+      <nav>
+        <%= link_to "Home", root_path, class: "btn btn-light btn-sm mx-2", aria_label: "Go to the home page" %>
+        <%= link_to "Students", students_path, class: "btn btn-light btn-sm mx-2", aria_label: "Go to the students list page" %>
+        <%= link_to "New Student", new_student_path, class: "btn btn-success btn-sm mx-2", aria_label: "Add a new student" %>
+      </nav>
+    </div>
+  </div>
+</header>
 
-<h1>Students</h1>
 
-<!-- Render the search form -->
-<%= render 'search_form' %>
+<div class="container my-4">
+  <p style="color: green"><%= notice %></p>
 
-<div id="students">
-  <% if @students.empty? && @search_params.present? %>
-    <p>No students found. Please try a different search.</p>
-  <% elsif @students.any? %>
-    <% @students.each do |student| %>
-      <%= render student %>
-      <p>
-        <%= link_to "Show this student", student %>
-      </p>
-    <% end %>
+  <h1>Students</h1>
+
+
+<form aria-label="Search students form" role="search">
+  <%= render 'search_form' %>
+</form>
+
+<div id="students" aria-label="Students table" role="table">
+  <div class="row font-weight-bold border-bottom pb-2" role="row">
+    <div class="col-6 col-md-3" role="columnheader">First Name</div>
+    <div class="col-6 col-md-3" role="columnheader">Last Name</div>
+    <div class="col-6 col-md-2" role="columnheader">Major</div>
+    <div class="col-6 col-md-2" role="columnheader">Graduation Date</div>
+    <div class="col-12 col-md-2 text-md-right" role="columnheader">Actions</div>
+  </div>
+
+  <% @students.each do |student| %>
+    <div class="row border-bottom py-2 align-items-center" role="row">
+      <div class="col-6 col-md-3" role="cell"><%= student.first_name %></div>
+      <div class="col-6 col-md-3" role="cell"><%= student.last_name %></div>
+      <div class="col-6 col-md-2" role="cell"><%= student.major %></div>
+      <div class="col-6 col-md-2" role="cell"><%= student.graduation_date %></div>
+      <div class="col-12 col-md-2 text-md-right" role="cell">
+        <%= link_to "Show", student, class: "btn btn-info btn-sm mr-2", aria_label: "Show details for #{student.first_name} #{student.last_name}" %>
+        <%= link_to "Edit", edit_student_path(student), class: "btn btn-warning btn-sm mr-2", aria_label: "Edit details for #{student.first_name} #{student.last_name}" %>
+        <%= link_to "Delete", student, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm", aria_label: "Delete #{student.first_name} #{student.last_name}" %>
+      </div>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New student", new_student_path, class: "btn btn-success mt-3" %>
+
+  <%= link_to "New student", new_student_path, class: "btn btn-success mt-3" %>
+</div>
+
+<style>
+  .btn-info:hover {
+    background-color: #17a2b8;
+  }
+  .btn-warning:hover {
+    background-color: #ffc107;
+  }
+  .btn-danger:hover {
+    background-color: #dc3545;
+  }
+</style>
