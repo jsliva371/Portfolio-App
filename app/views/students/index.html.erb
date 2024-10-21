@@ -2,13 +2,20 @@
 
 <h1>Students</h1>
 
+<!-- Render the search form -->
+<%= render 'search_form' %>
+
 <div id="students">
-  <% @students.each do |student| %>
-    <%= render student %>
-    <p>
-      <%= link_to "Show this student", student %>
-    </p>
+  <% if @students.empty? && @search_params.present? %>
+    <p>No students found. Please try a different search.</p>
+  <% elsif @students.any? %>
+    <% @students.each do |student| %>
+      <%= render student %>
+      <p>
+        <%= link_to "Show this student", student %>
+      </p>
+    <% end %>
   <% end %>
 </div>
 
-<%= link_to "New student", new_student_path %>
+<%= link_to "New student", new_student_path, class: "btn btn-success mt-3" %>
